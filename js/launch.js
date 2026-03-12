@@ -29,18 +29,24 @@ const STYLES = {
         }
     `,
     HIDE_TOP_BAR: `
-        header {
+        nav#header {
             display: none !important;
         }
     `,
     MAX_MENU_PANEL: `
-        nav:not(:has(> button:first-child)) {
+        nav:not(#header):not(:has(> button:first-child)) {
             position: absolute;
             z-index: 99;
             height: 100%;
             width: 100vw;
             max-width: 100vw;
             background: linear-gradient(var(--lineHighlight), var(--lineHighlight)), var(--background);
+        }
+    `,
+    FIX_LAYOUT: `
+        .flex.flex-col.grow.overflow-hidden {
+            margin-top: 0 !important;
+            padding-top: 0 !important;
         }
     `,
     HIDE_MENU_PANEL: `
@@ -327,6 +333,7 @@ async function handleEvent(message) {
         // Register additional styles
         await page.addStyleTag({ content: STYLES.HIDE_EDITOR_SCROLLBAR });
         await page.addStyleTag({ content: STYLES.DISABLE_EVAL_BG_FLASH });
+        await page.addStyleTag({ content: STYLES.FIX_LAYOUT });
 
         if (userConfig.maximiseMenuPanel) {
             await page.addStyleTag({ content: STYLES.MAX_MENU_PANEL });
